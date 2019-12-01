@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">ZimTest</string>
+    <string name="cat_fragment_query">cat</string>
+    <string name="dog_fragment_query">dog</string>
+    <string name="cat_fragment_tag">cat</string>
+    <string name="dog_fragment_tag">dog</string>
+    <string name="data_key">data</string>
+    <string name="query">query</string>
+    <string name="empty_query">Query is empty</string>
+
+    <string name="no_internet">Internet is not available</string>
+
+
+
+</resources>
