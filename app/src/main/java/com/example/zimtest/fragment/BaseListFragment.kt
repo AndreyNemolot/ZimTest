@@ -1,11 +1,9 @@
 package com.example.zimtest.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -16,6 +14,8 @@ import com.example.zimtest.adapter.RecyclerAdapter
 import com.example.zimtest.databinding.ListFragmentBinding
 import com.example.zimtest.model.Data
 import com.example.zimtest.model.DataResponse
+import com.example.zimtest.startActivityWithExtras
+import com.example.zimtest.toast
 import com.example.zimtest.viewModel.BaseFragmentViewModel
 
 
@@ -74,7 +74,7 @@ open class BaseListFragment : Fragment(), RecyclerAdapter.OnItemClickListener{
     }
 
     private fun showEmptyDataMessage(){
-        Toast.makeText(activity, resources.getString(R.string.empty_query), Toast.LENGTH_SHORT).show()
+        activity!!.toast(resources.getString(R.string.empty_query))
     }
 
     override fun onItemClick(data: Data) {
@@ -82,8 +82,6 @@ open class BaseListFragment : Fragment(), RecyclerAdapter.OnItemClickListener{
     }
 
     private fun startDetailActivity(data: Data){
-        val intent = Intent(activity, DetailActivity::class.java)
-        intent.putExtra(resources.getString(R.string.data_key), data)
-        startActivity(intent)
+        activity!!.startActivityWithExtras(DetailActivity::class.java, resources.getString(R.string.data_key), data)
     }
 }
