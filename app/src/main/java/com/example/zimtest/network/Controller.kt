@@ -25,7 +25,8 @@ class Controller {
     }
 
     fun getData(query: String): Call<DataResponse> {
-        val accountApi = accountRetrofit.create(DataApi::class.java)
-        return accountApi.getUserAccount(query)
+        val dataApi = accountRetrofit.create(DataApi::class.java)
+        return dataApi.getData(query)
     }
+
 }

@@ -1,5 +1,7 @@
 package com.example.zimtest.model.repository
 
-interface DataRepository<T> {
-    fun getData(query: String, dataReadyCallback: DataReadyCallback<T>)
+import com.example.zimtest.model.DataResponse
+
+interface DataRepository {
+    suspend fun getData(query: String): DataResponse
 }

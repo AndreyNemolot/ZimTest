@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.zimtest.R
 import com.example.zimtest.databinding.ActivityDetailBinding
+import com.example.zimtest.getStringFromResources
 import com.example.zimtest.model.Data
 
 
@@ -17,7 +18,7 @@ class DetailActivity : AppCompatActivity() {
         binding =
             DataBindingUtil.setContentView(this, R.layout.activity_detail)
 
-        val data = intent.getParcelableExtra(resources.getString(R.string.data_key)) as Data
+        val data = intent.getParcelableExtra(getStringFromResources(R.string.data_key)) as Data
         binding.data = data
     }
 }

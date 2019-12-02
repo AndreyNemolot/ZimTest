@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import com.example.zimtest.R
 import com.example.zimtest.databinding.ActivityMainBinding
 import com.example.zimtest.fragment.BaseListFragment
+import com.example.zimtest.getStringFromResources
 import com.example.zimtest.viewModel.MainActivityViewModel
 import com.google.android.material.tabs.TabLayout
 
@@ -50,8 +50,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun switchTab() {
-        val catStringTag = resources.getString(R.string.cat_fragment_tag)
-        val dogStringTag = resources.getString(R.string.dog_fragment_tag)
+        val catStringTag = getStringFromResources(R.string.cat_fragment_tag)
+        val dogStringTag = getStringFromResources(R.string.dog_fragment_tag)
         when (viewModel.currentTabId) {
             0 -> showSelectedFragment(
                 catListFragment,
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setQueryToFragmentBundle(fragment:Fragment, query: String){
         val bundle = Bundle()
-        bundle.putString(resources.getString(R.string.query), query)
+        bundle.putString(getStringFromResources(R.string.query), query)
         fragment.arguments = bundle
     }
 }

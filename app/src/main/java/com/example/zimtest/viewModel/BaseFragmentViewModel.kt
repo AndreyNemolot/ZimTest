@@ -1,40 +1,55 @@
 package com.example.zimtest.viewModel
 
+import android.app.Application
+import androidx.databinding.ObservableField
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.zimtest.R
+import com.example.zimtest.getStringFromResources
 import com.example.zimtest.model.DataResponse
-import com.example.zimtest.model.repository.DataReadyCallback
-import com.example.zimtest.model.repository.DataRepository
+
 import com.example.zimtest.model.repository.DataRepositoryImpl
 import com.example.zimtest.network.Controller
+import kotlinx.coroutines.*
+import java.lang.Exception
 
-open class BaseFragmentViewModel : ViewModel() {
-    private val repository: DataRepository<DataResponse>
-    var dataResponse: DataResponse
+class BaseFragmentViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository: DataRepositoryImpl
+    private var dataResponse: DataResponse
     private var dataResponseLive = MutableLiveData<DataResponse>()
+    var errorMessage = ObservableField<String>("")
+
 
     init {
         dataResponse = DataResponse()
         val controller = Controller()
-        repository= DataRepositoryImpl(controller)
+        repository = DataRepositoryImpl(controller)
     }
 
     fun getData(query: String): MutableLiveData<DataResponse> {
-        repository.getData(query, object : DataReadyCallback<DataResponse> {
-            override fun dataReady(data: DataResponse) {
-                saveDataResponse(data)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    dataResponse = repository.getData(query)
+                    saveDataResponse()
+                }catch (e:Exception){
+                    setErrorMessage(getApplication<Application>().getStringFromResources(R.string.no_internet))
+                }
             }
-
-            override fun dataFailure(data: DataResponse) {
-                saveDataResponse(data)
-            }
-
-        })
+        }
         return dataResponseLive
     }
 
-    private fun saveDataResponse(dataResponse: DataResponse){
-        this.dataResponse=dataResponse
-        dataResponseLive.postValue(this.dataResponse)
+    private fun saveDataResponse() {
+        if(dataResponse.data.isNotEmpty()){
+            dataResponseLive.postValue(dataResponse)
+        }else{
+            setErrorMessage(getApplication<Application>().getStringFromResources(R.string.empty_response))
+        }
+    }
+
+    private fun setErrorMessage(message: String){
+        errorMessage.set(message)
     }
 }

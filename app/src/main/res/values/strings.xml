@@ -7,6 +7,7 @@
     <string name="data_key">data</string>
     <string name="query">query</string>
     <string name="empty_query">Query is empty</string>
+    <string name="empty_response">Response is empty</string>
 
     <string name="no_internet">Internet is not available</string>
 
